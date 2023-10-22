@@ -72,6 +72,10 @@ The Central Ordering System for Hospitals is a software designed to streamline a
 5. **Patient:**
    - Access the system to view their orders and request an appointment with a Doctor of General Medicine.
 
+## Database
+![baza podataka JAVA readme](https://github.com/OSS-Java-Seminar-2023/Central-ordering-system-for-hospitals/assets/146756296/259da91a-57c1-444d-8801-b1f154fd7182)
+
+
 ## Security and Privacy
 
 - The Central Ordering System employs robust security measures to ensure the confidentiality and integrity of the data.
