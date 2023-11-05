@@ -182,3 +182,13 @@ GO
 
 ALTER TABLE [dbo].[Order] CHECK CONSTRAINT [FK_Order_Users2]
 GO
+
+ALTER TABLE [dbo].[DoctorOfGeneralMedicine]
+ADD CONSTRAINT [UNQ_DoctorOfGeneralMedicine_RoleID] UNIQUE ([RoleID]);
+
+ALTER TABLE [dbo].[SpecialistDoctor]
+ADD CONSTRAINT [UNQ_SpecialistDoctor_RoleID] UNIQUE ([RoleID]);
+
+ALTER TABLE [dbo].[Patient]
+ADD CONSTRAINT [UNQ_Patient_RoleID] UNIQUE ([RoleID]);
+GO
