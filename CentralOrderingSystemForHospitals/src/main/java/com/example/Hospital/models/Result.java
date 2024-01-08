@@ -3,6 +3,7 @@ package com.example.Hospital.models;
 import lombok.*;
 
 import javax.persistence.*;
+//import jakarta.persistence.*;
 import java.util.UUID;
 
 @Data

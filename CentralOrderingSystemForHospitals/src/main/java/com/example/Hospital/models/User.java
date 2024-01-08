@@ -1,6 +1,8 @@
 package com.example.Hospital.models;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -13,9 +15,14 @@ import java.util.UUID;
 @Entity
 @Table(name = "User")
 public class User {
+
+
     @Id
-    @Column(name = "UserID", updatable = false, nullable = false)
-    private String id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Type(type = "uuid-char")
+    @Column(name = "ID")
+    String id;
 
     @Column(name = "Name")
     private String name;
@@ -23,19 +30,32 @@ public class User {
     @Column(name = "Surname")
     private String surname;
 
+    @Column(name = "Username")
+    private String username;
+
+    @Column(name = "Password")
+    private String password;
+
+    @Column(name = "Email")
+    private String email;
+
     @Column(name = "Contact")
     private String contact;
 
-    @ManyToOne
-    @JoinColumn(name = "RoleID")
-    private DoctorOfGeneralMedicine doctorOfGeneralMedicine;
+    @Column(name = "Role")
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
-    @ManyToOne
-    @JoinColumn(name = "RoleID")
-    private Patient patient;
+    @Column(name = "Address")
+    private String address;    // mozda bude null ovisno o roli
 
-    @ManyToOne
-    @JoinColumn(name = "RoleID")
-    private SpecialistDoctor specialistDoctor;
+    @Column(name = "Specialisation")
+    private String specialisation;  // mozda bude null ovisno o roli
+
+    @Column(name = "Insurance Number")
+    private String insuranceNumber;  // mozda bude null ovisno o roli
+
+    @Column(name = "Bill")
+    private String bill;   // mozda bude null ovisno o roli
 
 }

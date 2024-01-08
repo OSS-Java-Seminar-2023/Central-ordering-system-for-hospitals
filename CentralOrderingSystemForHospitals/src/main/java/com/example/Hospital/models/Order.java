@@ -7,14 +7,27 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "Order")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "OrderID")
-    private String orderID;
+    @Column(name = "ID")
+    private String id;
 
+    @ManyToOne
+    @JoinColumn(name = "UserID")
+    private User user;
+
+    @Column(name = "Date")
+    private String date;
+
+    @ManyToOne
+    @JoinColumn(name = "ResultID")
+    private Result result;
+
+    /*
     @ManyToOne
     @JoinColumn(name = "DoctorOfGeneralMedicineID")
     private User doctorOfGeneralMedicine;
@@ -26,11 +39,5 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "PatientID")
     private User patient;
-
-    @Column(name = "Date")
-    private String date;
-
-    @ManyToOne
-    @JoinColumn(name = "ResultID")
-    private Result result;
+    */
 }
