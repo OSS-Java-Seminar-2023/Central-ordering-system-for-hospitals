@@ -3,13 +3,14 @@ package com.example.Hospital.controllers;
 import com.example.Hospital.models.*;
 import com.example.Hospital.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+@Controller
 @RequestMapping("/orders")
 public class OrderController {
 
@@ -17,48 +18,50 @@ public class OrderController {
     private OrderServices orderServices;
 
     @GetMapping
-    public List<Order> getAllOrders() {
-        return orderServices.getAllOrders();
+    public String getAllOrders(Model model) {
+        List<Order> orders = orderServices.getAllOrders();
+        model.addAttribute("orders", orders);
+        return "order/list";  // Assuming you have a Thymeleaf template named "order/list.html"
     }
 
     @GetMapping("/{id}")
-    public Optional<Order> getOrderById(@PathVariable String id) {
-        return orderServices.getOrderById(id);
+    public String getOrderById(@PathVariable String id, Model model) {
+        Optional<Order> order = orderServices.getOrderById(id);
+        order.ifPresent(o -> model.addAttribute("order", o));
+        return "order/details";  // Assuming you have a Thymeleaf template named "order/details.html"
+    }
+
+    @GetMapping("/search")
+    public String searchOrders(
+            @RequestParam(required = false) String userId,
+            @RequestParam(required = false) String resultId,
+            Model model
+            // Add more parameters if needed
+    ) {
+        List<Order> orders = orderServices.searchOrders(userId, resultId);
+        model.addAttribute("orders", orders);
+        return "order/list";  // Assuming you have a Thymeleaf template named "order/list.html"
     }
 
     @PostMapping
-
-
-    @PutMapping("/{id}")
-    public Order updateOrder(@PathVariable String id, @RequestBody Order order) {
-        return orderServices.saveOrder(order);
-    }
-
-    @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+    public String createOrder(@ModelAttribute("order") Order order) {
         Order createdOrder = orderServices.saveOrder(order);
-        return ResponseEntity.ok(createdOrder);
+        return "redirect:/orders/" + createdOrder.getId();
     }
 
     @PutMapping("/{orderId}/addResult")
-    public ResponseEntity<String> updateResultForOrder(@PathVariable String orderId, @RequestBody Result result) {
+    public String updateResultForOrder(
+            @PathVariable String orderId,
+            @ModelAttribute("result") Result result,
+            Model model
+    ) {
         orderServices.updateResultForOrder(orderId, result);
-        return ResponseEntity.ok("Result added to order with ID: " + orderId);
-    }
-
-
-    @GetMapping("/search")
-    public ResponseEntity<List<Order>> searchOrders(
-            @RequestParam(required = false) String userId,
-            @RequestParam(required = false) String resultId
-            // We can add some more if we need more parameters
-            ) {
-        List<Order> orders = orderServices.searchOrders(userId, resultId);
-        return ResponseEntity.ok(orders);
+        return "redirect:/orders/" + orderId;
     }
 
     @DeleteMapping("/{id}")
-    public void deleteOrder(@PathVariable String id) {
+    public String deleteOrder(@PathVariable String id) {
         orderServices.deleteOrder(id);
+        return "redirect:/orders";
     }
 }
