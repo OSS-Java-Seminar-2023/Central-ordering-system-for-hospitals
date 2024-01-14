@@ -1,0 +1,19 @@
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li>
+
+        <#if userRole?exists && userRole == 'PATIENT'>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/my-orders">My Orders</a></li>
+        <li><a href="/logout">Logout</a></li>
+        <#elseif userRole?exists && userRole == 'DOCTOR_GENERAL_MEDICINE'>
+        <li><a href="/my-patients">My Patients</a></li>
+        <li><a href="/logout">Logout</a></li>
+        <#elseif userRole?exists && userRole == 'DOCTOR_SPECIALIST'>
+        <li><a href="/my-orders">My Orders</a></li>
+        <li><a href="/logout">Logout</a></li>
+        <#else>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register">Register</a></li>
+    </ul>
+</nav>
